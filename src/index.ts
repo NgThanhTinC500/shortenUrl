@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
 import app from "./app";
 import { AppDataSource } from "./data-source";
-
+import cors from "cors";
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
+
 
 AppDataSource.initialize()
   .then(() => {
