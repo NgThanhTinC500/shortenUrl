@@ -237,13 +237,8 @@ npm install
 
 ### 3. Cấu hình môi trường
 
-Tạo file `.env` và chỉnh sửa theo máy của bạn:
+Vào file `.env` và chỉnh sửa theo máy của bạn:
 
-```env
-PORT=5000
-DATABASE_URL=your_database_url
-BASE_URL=http://localhost:5000
-```
 
 ### 4. Chạy database
 
