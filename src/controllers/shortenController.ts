@@ -21,8 +21,8 @@ export class ShortenController {
   });
 
   /**
-   * Xử lý redirect: lưu click log TRƯỚC khi redirect.
-   * Fire-and-forget để không làm chậm redirect.
+   * Xử lý redirect: trigger lưu click log rồi redirect ngay.
+   * Không await để tránh làm chậm trải nghiệm người dùng.
    */
   getOriginalUrl = catchAsync(async (req: Request, res: Response): Promise<void> => {
     const code = String(req.params.code);
@@ -48,7 +48,7 @@ export class ShortenController {
       console.error("[Click Tracking Error]", err);
     });
     // Redirect ngay, không chờ tracking hoàn thành
-    res.redirect(301, shortUrl.originalUrl);
+    res.redirect(302, shortUrl.originalUrl);
   });
   getStats = catchAsync(async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);

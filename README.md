@@ -226,7 +226,7 @@ Một `ShortUrl` có nhiều `Click` — một `Click` thuộc về một `Short
 
 ```bash
 git clone <repo-url>
-cd backend
+cd shortenUrl-BE
 ```
 
 ### 2. Cài đặt dependencies
