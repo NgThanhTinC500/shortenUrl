@@ -237,7 +237,7 @@ npm install
 
 ### 3. Cấu hình môi trường
 
-Vào file `.env` và chỉnh sửa theo máy của bạn:
+Vào file `.env` và chỉnh sửa theo máy của anh/ chị:
 
 
 ### 4. Chạy database
