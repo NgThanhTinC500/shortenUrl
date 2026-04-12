@@ -4,7 +4,7 @@ import { ShortUrl } from "../entities/ShortUrl.entity";
 import * as UAParser from "ua-parser-js";
 import * as geoip from "geoip-lite";
 import * as dotenv from "dotenv";
-import { AppError } from "../utils/AppError";
+import { AppError } from "../utils/appError";
 dotenv.config();
 
 // Interface chứa thông tin click cần lưu

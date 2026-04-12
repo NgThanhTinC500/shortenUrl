@@ -18,16 +18,17 @@ Hệ thống được thiết kế theo hướng RESTful API, dễ mở rộng v
 ✅ Lưu số lượt click
 ✅ Lấy danh sách tất cả URL
 ✅ Sắp xếp theo số lượt click
-✅ Xem thống kê từng URL
+✅ Xem thống kê từng URL ( IP, Browser, OS, Referrer, Clicked At)
 ✅ Middleware validate request
 ✅ Xử lý lỗi chuẩn hóa
+
 🛠 Tech Stack
 Node.js + Express.js
 TypeORM
 PostgreSQL
 Zod (validation)
 TypeScript
-UUID / NanoID (generate short code)
+Encode base62
 🧠 Architecture Overview
 
 Backend được tổ chức theo cấu trúc:
@@ -39,8 +40,8 @@ src/
 ├── routes/ // Định nghĩa API routes
 ├── middlewares/ // Middleware (validate, error handling)
 ├── schemas/ // Zod validation schemas
-├── config/ // Config DB, env
 └── utils/ // Helper functions
+
 Flow xử lý request:
 Client → Route → Middleware (validate) → Controller → Service → Database
 📡 API Design
@@ -55,16 +56,15 @@ Request body:
 }
 
 Response:
-
 {
 "success": true,
 "data": {
-"id": 1,
-"originalUrl": "https://example.com",
-"shortUrl": "http://localhost:5000/api/v1/abc123",
-"code": "abc123",
-"totalClicks": 0
-}
+"id": 16,
+"code": "g",
+"originalUrl": "https://www.youtube.com/watch?v=9vl4NdT2bnA&list=RD9vl4NdT2bnA&start_radio=1",
+"shortUrl": "http://localhost:5000/api/v1/g"
+},
+"message": "Create shortUrl success"
 } 2. Redirect URL
 GET /api/v1/:code
 
@@ -72,36 +72,65 @@ GET /api/v1/:code
 
 3. Lấy danh sách URL
    GET /api/v1/urls
+
 4. Lấy thống kê theo ID
-   GET /api/v1/urls/:id/stats
+   GET /api/v1/shorten/:id/stats
+
    🗄 Data Model
    ShortUrl Entity
    {
    id: number;
-   originalUrl: string;
    code: string;
+   originalUrl: string;
    totalClicks: number;
    createdAt: Date;
    }
+
    Giải thích:
    originalUrl: URL gốc
    code: mã rút gọn (unique)
    totalClicks: số lần truy cập
    createdAt: thời gian tạo
    ⚙️ How to Run
+
+   Click Entity
+   {
+   id: number;
+   shortUrlId: number;
+   ip: string;
+   browser: string;
+   os: string;
+   country: string;
+   referrer: string;
+   clickedAt: Date;
+   }
+
+   📌 Giải thích:
+   id: khóa chính của bản ghi click
+   shortUrlId: id của short URL được truy cập
+   ip: địa chỉ IP của người dùng
+   browser: trình duyệt (Chrome, Firefox,...)
+   os: hệ điều hành (Windows, MacOS,...)
+   country: quốc gia (xác định từ IP)
+   referrer: nguồn truy cập (Google, Facebook, Direct,...)
+   clickedAt: thời điểm người dùng click
+
+   🔗 Relationship
+   Một ShortUrl có nhiều Click
+   Một Click thuộc về một ShortUrl
+
 5. Clone project
    git clone <repo-url>
    cd backend
 6. Cài đặt dependencies
    npm install
-7. Tạo file .env
-   PORT=5000
-   DATABASE_URL=postgres://username:password@localhost:5432/short_url_db
+7. Tạo chỉnh sửa file .env
+   vào file env và chỉnh sửa theo cấu hình máy
 8. Chạy database
+   vào PostgreSQL và tạo database có tên "shortenUrl"
+   Đảm bảo PostgreSQL đang chạy và database đã được tạo.
 
-Đảm bảo PostgreSQL đang chạy và database đã được tạo.
-
-5. Run server
+9. Run server
    npm run dev
-6. Test API
-   Base URL: http://localhost:5000/api/v1
+10. Test API
+    Base URL: http://localhost:5000/api/v1

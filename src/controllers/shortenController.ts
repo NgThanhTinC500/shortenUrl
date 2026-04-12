@@ -14,9 +14,10 @@ export class ShortenController {
       message: "Create shortUrl success",
     });
   });
+
   getAllUrl = catchAsync(async (req: Request, res: Response): Promise<void> => {
     const allUrl = await this.shortenService.getAllUrl();
-    res.status(200).json({ success: true, data: allUrl });
+    res.status(200).json({ success: true, data: allUrl, message: "Get all URLs successfully", });
   });
 
   /**
@@ -46,7 +47,6 @@ export class ShortenController {
     this.shortenService.recordClick(shortUrl.id, meta).catch((err) => {
       console.error("[Click Tracking Error]", err);
     });
-
     // Redirect ngay, không chờ tracking hoàn thành
     res.redirect(301, shortUrl.originalUrl);
   });
@@ -57,7 +57,7 @@ export class ShortenController {
       return;
     }
     const stats = await this.shortenService.getStats(id);
-    res.status(200).json({ success: true, data: stats });
+    res.status(200).json({ success: true, data: stats, message: "Get stats successfully" });
 
   });
 }
