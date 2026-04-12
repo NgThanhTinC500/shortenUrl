@@ -221,11 +221,11 @@ Một `ShortUrl` có nhiều `Click` — một `Click` thuộc về một `Short
 ---
 
 ## ⚙️ How to Run
-
+  Mở terminal và thực hiện các lệnh sau
 ### 1. Clone project
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/NgThanhTinC500/shortenUrl-BE.git
 cd shortenUrl-BE
 ```
 
